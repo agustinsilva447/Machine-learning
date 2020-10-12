@@ -28,8 +28,9 @@ for i = 1:numel(x)
 end
 
 quiver(x,y,u,v,'r'); figure(gcf)
-xlabel('y_1')
-ylabel('y_2')
+title('Diagrama de flujo Zorros vs Conejos')
+xlabel('Conejos')
+ylabel('Zorros')
 axis tight equal;
 
 hold on
@@ -42,14 +43,14 @@ plot([x1,x1],[-10,20],[x2,x2],[-10,20]);
 hold off
 
 hold on
-%for y10 = [26 28 30 32 34]
-%  for y20 = [1 3 5 7 9]   
+for y10 = [26 28 30 32 34]
+  for y20 = [1 3 5 7 9]   
 %for y10 = [40]
 %  for y20 = [9]   
-%    [ts,ys] = ode45(f,[0:0.5:200],[y10;y20]);
-%    plot(ys(:,1),ys(:,2))
-%    plot(ys(1,1),ys(1,2),'bo') % starting point
-%    plot(ys(end,1),ys(end,2),'ks') % ending point
-%  end
-%end
-%hold off
+    [ts,ys] = ode45(f,[0:0.5:200],[y10;y20]);
+    plot(ys(:,1),ys(:,2))
+    plot(ys(1,1),ys(1,2),'bo') % starting point
+    plot(ys(end,1),ys(end,2),'ks') % ending point
+  end
+end
+hold off
