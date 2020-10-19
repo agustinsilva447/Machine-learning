@@ -26,8 +26,6 @@ def qft(circuit, n):
 
 n_qubits = 4
 qc = QuantumCircuit(n_qubits,n_qubits)
-qc.h(0)
-qc.h(1)
 qft(qc,n_qubits)
 
 backend = Aer.get_backend('statevector_simulator')
