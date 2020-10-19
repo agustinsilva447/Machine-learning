@@ -26,6 +26,8 @@ def qft(circuit, n):
 
 n_qubits = 4
 qc = QuantumCircuit(n_qubits,n_qubits)
+qc.h(0)
+qc.h(1)
 qft(qc,n_qubits)
 
 backend = Aer.get_backend('statevector_simulator')
@@ -53,6 +55,16 @@ for medida, cantidad in counts.items():
 np.random.shuffle(mediciones)
 
 np.savetxt("data_fourier.txt", mediciones, fmt='%04i')
+
+fin = open("data_fourier.txt", "rt")
+data = fin.read()
+data = data.replace('0', '0 ')
+data = data.replace('1', '1 ')
+fin.close()
+fin = open("data_fourier.txt", "wt")
+fin.write(data)
+fin.close()
+
 fig2 = plot_histogram(counts)
 fig2.savefig("data.jpg")
 
