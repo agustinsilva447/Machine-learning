@@ -15,7 +15,7 @@ nv = train_data.shape[-1]
 nh = nv
 nn_state = PositiveWaveFunction(num_visible=nv, num_hidden=nh, gpu=False)
 
-epochs = 20
+epochs = 100
 pbs = 100
 nbs = pbs
 lr = 0.01
