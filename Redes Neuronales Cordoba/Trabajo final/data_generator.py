@@ -1,8 +1,11 @@
 import qucumber
 import numpy as np
 import matplotlib.pyplot as plt
+
+from qiskit import IBMQ
 from qiskit import QuantumCircuit, execute, Aer
-from qiskit.visualization import plot_histogram, plot_bloch_multivector
+from qiskit.visualization import plot_histogram
+from qiskit.providers.ibmq import least_busy
 
 def qft_rotations(circuit, n):
     if n == 0:
@@ -40,8 +43,18 @@ plt.savefig("state.jpg")
 
 qc.measure(np.arange(n_qubits), np.arange(n_qubits)) 
 num_medidas = 1000
-backend = Aer.get_backend('qasm_simulator')
-result = execute(qc, backend=backend, shots=num_medidas).result()
+
+"""
+backend1 = Aer.get_backend('qasm_simulator')
+result = execute(qc, backend=backend1, shots=num_medidas).result()
+counts = result.get_counts(qc)
+print("Counts: {}".format(counts))
+"""
+
+IBMQ.save_account('bc0221c2c435408a718744a0e3388325cd4241375e15beefb8909a759a28201db7c6a425e8d07e09e54105e373aceccb175fa8eb46700b4db88ac50dbdc6fa84')
+provider = IBMQ.load_account()
+backend2 = least_busy(provider.backends(filters=lambda b: b.configuration().n_qubits >= 3 and not b.configuration().simulator and b.status().operational==True))
+result = execute(qc, backend=backend2, shots=num_medidas).result()
 counts = result.get_counts(qc)
 print("Counts: {}".format(counts))
 
@@ -51,7 +64,6 @@ for medida, cantidad in counts.items():
     mediciones[num_medidas:num_medidas + cantidad] = medida
     num_medidas += cantidad
 np.random.shuffle(mediciones)
-
 np.savetxt("data_fourier.txt", mediciones, fmt='%04i')
 
 fin = open("data_fourier.txt", "rt")
